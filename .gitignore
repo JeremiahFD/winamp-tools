@@ -1,0 +1,9 @@
+*.zip
+*.pdb
+*.obj
+*.exp
+*.lib
+*.ilk
+.vs/
+build/
+wasapi-loopback-input/build/

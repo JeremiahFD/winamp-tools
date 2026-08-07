@@ -1,0 +1,4 @@
+LIBRARY in_svloopback
+EXPORTS
+    winampGetInModule2
+
