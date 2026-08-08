@@ -68,11 +68,35 @@ try {
     ))
 
     Invoke-Compiler ($common + @(
+        'src\endpoint_signal_probe.cpp',
+        "/Fe:$outputDirectory\endpoint_signal_probe.exe",
+        "/Fo:$outputDirectory\",
+        '/link', 'ole32.lib', 'propsys.lib', 'user32.lib',
+        "/PDB:$outputDirectory\endpoint_signal_probe.pdb"
+    ))
+
+    Invoke-Compiler ($common + @(
         'src\plugin_abi_probe.cpp',
         "/Fe:$outputDirectory\plugin_abi_probe.exe",
         "/Fo:$outputDirectory\",
         '/link',
         "/PDB:$outputDirectory\plugin_abi_probe.pdb"
+    ))
+
+    Invoke-Compiler ($common + @(
+        'src\plugin_host_probe.cpp',
+        "/Fe:$outputDirectory\plugin_host_probe.exe",
+        "/Fo:$outputDirectory\",
+        '/link', 'user32.lib',
+        "/PDB:$outputDirectory\plugin_host_probe.pdb"
+    ))
+
+    Invoke-Compiler ($common + @(
+        'src\minidump_stack_probe.cpp',
+        "/Fe:$outputDirectory\minidump_stack_probe.exe",
+        "/Fo:$outputDirectory\",
+        '/link', 'dbghelp.lib',
+        "/PDB:$outputDirectory\minidump_stack_probe.pdb"
     ))
 
     Invoke-Compiler ($common + @(
@@ -89,6 +113,9 @@ try {
 Get-Item -LiteralPath `
     (Join-Path $outputDirectory 'in_svloopback.dll'), `
     (Join-Path $outputDirectory 'loopback_probe.exe'), `
+    (Join-Path $outputDirectory 'endpoint_signal_probe.exe'), `
     (Join-Path $outputDirectory 'plugin_abi_probe.exe'), `
+    (Join-Path $outputDirectory 'plugin_host_probe.exe'), `
+    (Join-Path $outputDirectory 'minidump_stack_probe.exe'), `
     (Join-Path $outputDirectory 'rate_adapter_probe.exe') |
     Select-Object FullName, Length, LastWriteTime

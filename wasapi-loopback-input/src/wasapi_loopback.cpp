@@ -1,6 +1,4 @@
 #include "wasapi_loopback.h"
-#include "visualization_rate_adapter.h"
-
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -23,6 +21,22 @@ using Microsoft::WRL::ComPtr;
 
 constexpr std::uint32_t kVisualizationFrameCount = 576;
 constexpr std::uint32_t kVisualizationChannels = 2;
+
+class ComApartment final {
+public:
+    explicit ComApartment(bool initialized) noexcept : initialized_(initialized) {}
+    ~ComApartment() {
+        if (initialized_) {
+            CoUninitialize();
+        }
+    }
+
+    ComApartment(const ComApartment&) = delete;
+    ComApartment& operator=(const ComApartment&) = delete;
+
+private:
+    bool initialized_ = false;
+};
 
 bool IsFloatFormat(const WAVEFORMATEX* format) {
     if (format->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) {
@@ -263,6 +277,9 @@ void WasapiLoopbackCapture::CaptureThread() {
         return;
     }
 
+    // This guard must be declared before the COM smart pointers. Destruction is
+    // reversed, so every interface is released before CoUninitialize runs.
+    ComApartment apartment(comInitialized);
     ComPtr<IMMDeviceEnumerator> enumerator;
     ComPtr<IMMDevice> device;
     ComPtr<IAudioClient> audioClient;
@@ -291,7 +308,7 @@ void WasapiLoopbackCapture::CaptureThread() {
     }
     if (SUCCEEDED(result)) {
         sourceSampleRate_.store(mixFormat->nSamplesPerSec);
-        sampleRate_.store(kVisualizationSampleRate);
+        sampleRate_.store(mixFormat->nSamplesPerSec);
         sourceChannels_.store(mixFormat->nChannels);
         result = audioClient->Initialize(AUDCLNT_SHAREMODE_SHARED,
                                          AUDCLNT_STREAMFLAGS_LOOPBACK,
@@ -310,9 +327,6 @@ void WasapiLoopbackCapture::CaptureThread() {
         if (mixFormat != nullptr) {
             CoTaskMemFree(mixFormat);
         }
-        if (comInitialized) {
-            CoUninitialize();
-        }
         return;
     }
 
@@ -321,8 +335,6 @@ void WasapiLoopbackCapture::CaptureThread() {
 
     std::array<std::int16_t, kVisualizationFrameCount * kVisualizationChannels> visualizationBuffer{};
     std::uint32_t bufferedFrames = 0;
-    VisualizationRateAdapter rateAdapter(mixFormat->nSamplesPerSec);
-
     while (!stopRequested_.load()) {
         UINT32 packetFrames = 0;
         result = captureClient->GetNextPacketSize(&packetFrames);
@@ -365,23 +377,18 @@ void WasapiLoopbackCapture::CaptureThread() {
                            !peak_.compare_exchange_weak(priorPeak, observedPeak)) {
                     }
 
-                    const auto outputLeft = ToInt16(left);
-                    const auto outputRight = ToInt16(right);
-                    const auto copies = rateAdapter.CopiesForNextSourceFrame();
-                    for (std::uint32_t copy = 0; copy < copies; ++copy) {
-                        const std::size_t destination = static_cast<std::size_t>(bufferedFrames) * 2;
-                        visualizationBuffer[destination] = outputLeft;
-                        visualizationBuffer[destination + 1] = outputRight;
-                        ++bufferedFrames;
+                    const std::size_t destination = static_cast<std::size_t>(bufferedFrames) * 2;
+                    visualizationBuffer[destination] = ToInt16(left);
+                    visualizationBuffer[destination + 1] = ToInt16(right);
+                    ++bufferedFrames;
 
-                        if (bufferedFrames == kVisualizationFrameCount) {
-                            if (callback_ != nullptr) {
-                                callback_(visualizationBuffer.data(), kVisualizationFrameCount,
-                                          kVisualizationSampleRate, callbackContext_);
-                            }
-                            visualizationFrames_.fetch_add(kVisualizationFrameCount);
-                            bufferedFrames = 0;
+                    if (bufferedFrames == kVisualizationFrameCount) {
+                        if (callback_ != nullptr) {
+                            callback_(visualizationBuffer.data(), kVisualizationFrameCount,
+                                      mixFormat->nSamplesPerSec, callbackContext_);
                         }
+                        visualizationFrames_.fetch_add(kVisualizationFrameCount);
+                        bufferedFrames = 0;
                     }
                 }
             }
@@ -406,9 +413,6 @@ void WasapiLoopbackCapture::CaptureThread() {
     running_.store(false);
     runtimeResult_.store(result);
     CoTaskMemFree(mixFormat);
-    if (comInitialized) {
-        CoUninitialize();
-    }
 }
 
 }  // namespace synced_visualizer

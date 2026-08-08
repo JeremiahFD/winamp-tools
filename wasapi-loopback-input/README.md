@@ -17,8 +17,8 @@ When Winamp opens `loopback://`, the input plug-in:
 
 1. asks Windows for the current default multimedia output device;
 2. starts a shared-mode WASAPI loopback capture on that device;
-3. converts common Windows mix formats to a steady 48 kHz, 16-bit stereo
-   visualization stream;
+3. converts common Windows mix formats to 16-bit stereo at the output device's
+   native mix rate;
 4. sends 576-frame PCM blocks to Winamp's spectrum and waveform visualization
    callbacks;
 5. leaves the real audio playing through its original app and output device.
@@ -40,7 +40,12 @@ in_svloopback.dll -> Winamp visualization data -> AVS / MilkDrop
 
 ## Install
 
-1. Download `winamp-wasapi-loopback-v0.1.0-x86.zip` from the Releases page.
+> **Important:** type `loopback://` exactly. Do **not** type `linein://`.
+> `linein://` starts Winamp's separate, older Line Input plug-in rather than
+> this WASAPI loopback plug-in, and that old plug-in may be unstable on some
+> modern systems.
+
+1. Download `winamp-wasapi-loopback-v0.1.1-x86.zip` from the Releases page.
 2. Close Winamp.
 3. Copy `in_svloopback.dll` into Winamp's `Plugins` folder, normally
    `C:\Program Files (x86)\Winamp\Plugins`.
@@ -74,21 +79,25 @@ Winamp's visualization interfaces.
 
 ## Compatibility and status
 
-- Experimental version `0.1.0`.
+- Experimental version `0.1.1`.
 - Built for 32-bit Winamp 5 on Windows 10/11.
 - Tested live with Winamp 5.92, AVS, and MilkDrop 2.
+- Version `0.1.0` did not work reliably in real Winamp testing and could crash
+  while starting or stopping `loopback://`. Do not use it. Version `0.1.1`
+  corrects the cleanup and live-input behavior and should fix that failure.
 - Captures the first two output channels; mono is duplicated to stereo.
 - Supports normal Windows shared-mode output mixes: unsigned PCM 8-bit, signed
   PCM 16/24/32-bit, and floating-point 32/64-bit.
-- Adapts 8 kHz through 384 kHz source cadence to a stable 48 kHz visualization
-  stream, avoiding excessive callback rates in legacy visualizers.
+- Passes the Windows device's native mix rate to Winamp instead of assuming
+  44.1 or 48 kHz. Automated rate handling checks cover 8 kHz through 384 kHz;
+  individual legacy visualizers or presets may have narrower limits.
 - The DLL is unsigned, so Windows or antivirus software may warn about it.
 - Legacy visualizer presets can still crash or hang Winamp independently of
   this input plug-in.
 
 Validated release DLL SHA-256:
 
-`75DA6BBF5EBD6F8F50669511BB2753411F08B2E00C3DAF9E171095873F010B8E`
+`9D8B9A8F9DEE66D3001D1E39042B8B0670C47FF6D4301DEDB6B4B2DF0EABE45A`
 
 ## Build and test
 
@@ -108,7 +117,10 @@ Outputs:
 
 - `build\x86\release\in_svloopback.dll`
 - `build\x86\release\loopback_probe.exe`
+- `build\x86\release\endpoint_signal_probe.exe`
 - `build\x86\release\plugin_abi_probe.exe`
+- `build\x86\release\plugin_host_probe.exe`
+- `build\x86\release\minidump_stack_probe.exe`
 - `build\x86\release\rate_adapter_probe.exe`
 
 Test native capture while audio is playing:
@@ -117,13 +129,27 @@ Test native capture while audio is playing:
 .\build\x86\release\loopback_probe.exe 5
 ```
 
+Check every active Windows playback endpoint for a live signal:
+
+```powershell
+.\build\x86\release\endpoint_signal_probe.exe 5
+```
+
 Validate the DLL ABI and exported Winamp entry point:
 
 ```powershell
 .\build\x86\release\plugin_abi_probe.exe
 ```
 
-Validate visualization cadence across common and high sample rates:
+Exercise the complete plug-in callback lifecycle through ten live start/stop
+cycles in a small fake Winamp host:
+
+```powershell
+.\build\x86\release\plugin_host_probe.exe
+```
+
+Exercise the standalone rate-adapter utility across common and high sample
+rates:
 
 ```powershell
 .\build\x86\release\rate_adapter_probe.exe

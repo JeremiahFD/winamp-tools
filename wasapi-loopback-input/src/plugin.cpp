@@ -13,7 +13,7 @@ using synced_visualizer::WasapiLoopbackCapture;
 constexpr char kPrimaryScheme[] = "loopback://";
 constexpr char kAlternateScheme[] = "svloopback://";
 
-char g_description[] = "Winamp Tools WASAPI Loopback Input v0.1.0 (x86)";
+char g_description[] = "Winamp Tools WASAPI Loopback Input v0.1.1 (x86)";
 char g_extensions[] = "SVLOOPBACK\0Winamp Tools Loopback URL (*.SVLOOPBACK)\0";
 char g_title[] = "System Output (WASAPI Loopback)";
 std::atomic<bool> g_visualizationReady{false};
@@ -144,7 +144,8 @@ void Stop() {
 }
 
 int GetLength() {
-    return -1;
+    // Winamp's live-input convention is -1000, not a generic -1 error.
+    return -1000;
 }
 
 int GetOutputTime() {
