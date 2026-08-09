@@ -11,6 +11,10 @@ It uses shared-mode WASAPI loopback directly. You do **not** need Stereo Mix,
 This is a hobby project made by someone who loves Winamp and wanted this old
 workflow to feel natural on a modern Windows laptop.
 
+> **New to Winamp plug-ins?** Start with the [complete beginner installation
+> guide](../BEGINNER_INSTALL_GUIDE.md). It explains the ZIP, DLL, Winamp
+> `Plugins` folder, and `loopback://` in plain language.
+
 ## How it works
 
 When Winamp opens `loopback://`, the input plug-in:
