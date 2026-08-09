@@ -64,6 +64,25 @@ This repository can grow to include other focused Winamp work, such as:
 
 Only items actually present in the repository should be considered released.
 
+## In development: Live Stations
+
+The next plug-in is a native Winamp Media Library station browser intended to
+replace the practical function lost when the legacy Online Services radio page
+returns HTTP 500. It searches the open Radio Browser directory at runtime,
+discovers mirrors instead of hard-coding one server, filters broken entries,
+and sends a selected stream to Winamp without erasing the existing playlist.
+
+It also exposes a separate experimental video list. The directory can identify
+H.264, MP4, and FLV-labeled streams, but playback still depends on Winamp's
+installed input plug-ins; modern HLS video should not be assumed to work in
+stock Winamp.
+
+This work is not released yet. The source, build instructions, current test
+status, and planned installation steps are in
+[`live-stations`](live-stations/) and the
+[step-by-step Live Stations guide](LIVE_STATIONS_GUIDE.md). A public download
+will wait until the DLL has also been exercised in a real Winamp installation.
+
 ## Related work in progress
 
 We are also working on an independent **Synced Visualizer** project. It is a

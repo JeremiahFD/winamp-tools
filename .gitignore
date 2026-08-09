@@ -7,3 +7,4 @@
 .vs/
 build/
 wasapi-loopback-input/build/
+physical-test/
