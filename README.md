@@ -3,6 +3,10 @@
 An homage to Winamp, and a home for plug-ins and small tools that help bring it
 into the modern era while keeping the things we love about it functional.
 
+[![Latest release](https://img.shields.io/github/v/release/JeremiahFD/winamp-tools?label=release)](https://github.com/JeremiahFD/winamp-tools/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-5b9bd5.svg)](LICENSE)
+[![Donate with PayPal](https://img.shields.io/badge/Donate_with-PayPal-0070BA?style=flat&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?business=CE2H5ZMBQKY9E&no_recurring=0&item_name=Thank+you+for+your+support%21+Your+donations+help+me+continue+to+do+the+work+I+love%21+I+hope+you+enjoy.+Be+sure+to+share%21&currency_code=USD)
+
 This is a hobby project. I love Winamp and want to keep experimenting with ways
 to make its classic features useful with modern Windows, audio devices, and
 workflows.
@@ -53,42 +57,40 @@ native mix rate instead of assuming 44.1 or 48 kHz; automated rate handling
 checks cover 8 kHz through 384 kHz. Very old visualization plug-ins or presets
 may still have their own sample-rate limitations.
 
-## Future direction
+## Project map
 
-This repository can grow to include other focused Winamp work, such as:
+Only **WASAPI Loopback Input v0.1.1** is released today. Everything else below
+is development work or a possible direction. Names, features, and release plans
+may change; inclusion here is not a promise that a feature will ship.
 
-- modern Windows compatibility adapters;
-- visualization and preset compatibility tools;
-- high-refresh visualization experiments;
-- utilities that preserve and extend classic Winamp workflows.
+| Project | Status | Current purpose and possible direction |
+| --- | --- | --- |
+| **Winamp AudioBridge** | In development | A friendlier successor to Loopback Input that may add a Media Library page, output-device selection, and clearer start/stop controls while preserving `loopback://`. Later experiments may explore metadata, media controls, and opt-in Winamp EQ/DSP processing. |
+| **Live Stations** | In development | A station-directory browser that fetches current providers instead of bundling thousands of stream links. Planned favorites are user-owned folders that can resolve a provider's stable station ID to its current URL. Categories, local browsing, and codec-aware playback are still being designed. |
+| **AVS Compatibility** | Research | May improve the experience of finding, testing, and organizing legally distributable AVS presets and compatibility fixes. Existing Winamp/third-party code and preset licenses must be respected. |
+| **Winamp Plugin Manager** | Concept | May install and update Winamp Tools releases, then optionally help users obtain third-party plug-ins from official sources with confirmation, hashes, backups, and rollback. It will not silently redistribute software we do not own. |
+| **Station Chat** | Concept, optional | A separate community-driven chat plug-in that may open a room for the station or stream currently playing. Decentralized history, privacy, IP exposure, abuse controls, and stable room identity need careful design before implementation. |
+| **Synced Visualizer** | Separate experiment | A modern visualizer project exploring built-in scenes, multiple rendering engines, high-refresh displays, and synchronized multi-device visuals. It is not included in Winamp Tools releases. |
 
-Only items actually present in the repository should be considered released.
+## Ideas, feedback, and bugs
 
-## Related work in progress
+- Share ideas in [Ideas and feature requests](https://github.com/JeremiahFD/winamp-tools/discussions/3).
+- Ask for help or report a problem in [Bug reports and compatibility help](https://github.com/JeremiahFD/winamp-tools/discussions/4).
+- Join the original [Winamp Tools welcome discussion](https://github.com/JeremiahFD/winamp-tools/discussions/1).
 
-We are also working on an independent **Synced Visualizer** project. It is a
-modern, host-neutral visualizer SDK and set of standalone apps rather than a
-Winamp replacement. The direction includes:
-
-- built-in spectrum, waveform, and radial visualizers;
-- support for multiple rendering engines over time, including projectM-style
-  MilkDrop rendering, portable AVS work, and optional web renderers such as
-  Butterchurn where licensing permits;
-- standalone Android, Android TV / NVIDIA Shield, and future Windows hosts;
-- high-refresh rendering for modern displays;
-- synchronized multi-device scenes where each screen can render a different
-  visualization from the same musical feature clock;
-- sharing derived timing and audio features between devices instead of copying
-  or transmitting protected music.
-
-That work is still experimental and is not included in this public repository
-yet. Winamp Tools is the practical public home for smaller Winamp-compatible
-plug-ins and utilities as they become ready.
+Please include the Winamp Tools version, Winamp version, Windows version, and
+the exact steps that led to a problem. Do not post credentials or private logs.
 
 ## AI assistance
 
 The first plug-in was created as a side project with OpenAI Codex assisting
 with implementation, build automation, testing, and documentation.
+
+## Support
+
+Winamp Tools remains free and MIT-licensed. If it helps you and you want to
+support continued hobby development and compatibility testing, you can
+[donate through PayPal](https://www.paypal.com/donate/?business=CE2H5ZMBQKY9E&no_recurring=0&item_name=Thank+you+for+your+support%21+Your+donations+help+me+continue+to+do+the+work+I+love%21+I+hope+you+enjoy.+Be+sure+to+share%21&currency_code=USD). Donations are optional.
 
 ## Disclaimer
 
