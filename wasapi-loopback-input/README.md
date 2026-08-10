@@ -175,6 +175,13 @@ is included.
 This plug-in was created as a side project with OpenAI Codex assisting with
 implementation, build automation, testing, and documentation.
 
+## Support the project
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate_with-PayPal-0070BA?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/donate/?business=CE2H5ZMBQKY9E&no_recurring=0&item_name=Thank+you+for+your+support%21+Your+donations+help+me+continue+to+do+the+work+I+love%21+I+hope+you+enjoy.+Be+sure+to+share%21&currency_code=USD)
+
+The plug-in remains free and MIT-licensed. Donations are optional and help
+support continued hobby development and testing.
+
 ## License and disclaimer
 
 Released under the repository's [MIT License](../LICENSE). This independent
