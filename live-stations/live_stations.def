@@ -1,0 +1,3 @@
+LIBRARY ml_livestations
+EXPORTS
+    winampGetMediaLibraryPlugin
