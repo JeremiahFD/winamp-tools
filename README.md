@@ -13,6 +13,24 @@ workflows.
 
 ## Available now
 
+### Live Stations — radio UI beta
+
+Browse Radio Browser stations inside Winamp's Media Library, filter by location,
+genre, language, codec and bitrate, and keep favorites close at hand. Switch
+between Browse and Stations views, resize the panes and columns, and show or
+hide filters and station details without losing your place.
+
+[Download the Live Stations beta](https://github.com/JeremiahFD/winamp-tools/releases/tag/live-stations-v0.1.0-beta.1)
+ · [Source and build instructions](https://github.com/JeremiahFD/winamp-tools/tree/release/live-stations-ui/live-stations)
+
+![Live Stations browsing radio stations in Winamp](assets/live-stations-ui.png)
+
+Windows, 32-bit Winamp; tested with Winamp 5.9.2. This is **beta** software and
+may be incomplete or incorrect. Native controls use the Media Library's colors
+where available, but do not copy every skin detail. Stream availability and
+playback depend on the directory, broadcaster and installed decoders. Video,
+the playlist-resolver companion and chat are not included.
+
 ### WASAPI Loopback Input
 
 Use AVS, MilkDrop, and other Winamp visualization plug-ins with audio playing
@@ -33,7 +51,7 @@ Download the ready-to-use ZIP from the repository's **Releases** page, or see
 > The cleanup and live-input behavior have been corrected in v0.1.1, and the
 > replacement DLL has been verified in Winamp 5.92 with live Realtek output.
 
-## Quick setup
+## WASAPI Loopback quick setup
 
 1. Download the current ZIP from the [latest release](https://github.com/JeremiahFD/winamp-tools/releases/latest).
 2. Copy `in_svloopback.dll` into Winamp's `Plugins` folder.
@@ -59,14 +77,14 @@ may still have their own sample-rate limitations.
 
 ## Project map
 
-Only **WASAPI Loopback Input v0.1.1** is released today. Everything else below
-is development work or a possible direction. Names, features, and release plans
-may change; inclusion here is not a promise that a feature will ship.
+**WASAPI Loopback Input v0.1.1** and the **Live Stations radio UI beta** are
+available. Other projects below remain development work or possible directions;
+inclusion is not a promise that a feature will ship.
 
 | Project | Status | Current purpose and possible direction |
 | --- | --- | --- |
 | **Winamp AudioBridge** | In development | A friendlier successor to Loopback Input that may add a Media Library page, output-device selection, and clearer start/stop controls while preserving `loopback://`. Later experiments may explore metadata, media controls, and opt-in Winamp EQ/DSP processing. |
-| **Live Stations** | In development | A station-directory browser that fetches current providers instead of bundling thousands of stream links. Planned favorites are user-owned folders that can resolve a provider's stable station ID to its current URL. Categories, local browsing, and codec-aware playback are still being designed. |
+| **Live Stations** | Radio UI beta | Radio Browser discovery, category counts, bounded paging, saved favorites, sortable columns and resizable details. Folder management, video, chat and the playlist-resolver companion are not included. |
 | **AVS Compatibility** | Research | May improve the experience of finding, testing, and organizing legally distributable AVS presets and compatibility fixes. Existing Winamp/third-party code and preset licenses must be respected. |
 | **Winamp Plugin Manager** | Concept | May install and update Winamp Tools releases, then optionally help users obtain third-party plug-ins from official sources with confirmation, hashes, backups, and rollback. It will not silently redistribute software we do not own. |
 | **Station Chat** | Concept, optional | A separate community-driven chat plug-in that may open a room for the station or stream currently playing. Decentralized history, privacy, IP exposure, abuse controls, and stable room identity need careful design before implementation. |
@@ -100,4 +118,5 @@ respective owners.
 
 ## License
 
-Code in this repository is available under the [MIT License](LICENSE).
+Original Winamp Tools code is available under the [MIT License](LICENSE).
+Retained third-party notices apply to their respective components.
