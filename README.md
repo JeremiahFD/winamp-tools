@@ -57,7 +57,7 @@ Download the ready-to-use ZIP from the repository's **Releases** page, or see
 
 ## WASAPI Loopback quick setup
 
-1. Download the current ZIP from the [latest release](https://github.com/JeremiahFD/winamp-tools/releases/latest).
+1. Download the [WASAPI Loopback v0.1.1 ZIP](https://github.com/JeremiahFD/winamp-tools/releases/tag/v0.1.1).
 2. Copy `in_svloopback.dll` into Winamp's `Plugins` folder.
 3. In Winamp, press **Ctrl+L**, enter `loopback://`, and start a visualizer.
 
