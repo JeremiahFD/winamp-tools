@@ -31,6 +31,10 @@ where available, but do not copy every skin detail. Stream availability and
 playback depend on the directory, broadcaster and installed decoders. Video,
 the playlist-resolver companion and chat are not included.
 
+**Possible next steps:** a companion to refresh saved playlist station links,
+video streams with suitable playback support, and separate optional station
+chat. These are future ideas, not release promises.
+
 ### WASAPI Loopback Input
 
 Use AVS, MilkDrop, and other Winamp visualization plug-ins with audio playing
